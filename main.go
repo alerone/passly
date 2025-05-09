@@ -11,7 +11,6 @@ import (
 func debugEncryptDecrypt(masterKey, iv, password string) (string, string) {
 	encripted := encrypt(password, masterKey, iv)
 	decrypted := decrypt(encripted, masterKey, iv)
-
 	return encripted, decrypted
 }
 

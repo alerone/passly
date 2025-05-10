@@ -1,4 +1,4 @@
-package streamcipher
+package streamCipher
 
 
 import (
@@ -6,7 +6,7 @@ import (
 )
 
 // encrypt function reads from channels, performs XOR encryption using the crypt function
-func encrypt(plaintext, key []byte) ([]byte, error) {
+func Encrypt(plaintext, key []byte) ([]byte, error) {
 	if len(plaintext) != len(key) {
 		return nil, errors.New("plaintext and key must be the same length")
 	}
@@ -39,7 +39,7 @@ func encrypt(plaintext, key []byte) ([]byte, error) {
 }
 
 // decrypt function performs XOR decryption using the crypt function
-func decrypt(ciphertext, key []byte) ([]byte, error) {
+func Decrypt(ciphertext, key []byte) ([]byte, error) {
 	if len(ciphertext) != len(key) {
 		return nil, errors.New("ciphertext and key must be the same length")
 	}

@@ -1,4 +1,4 @@
-package streamcipher
+package streamCipher
 
 import (
 	"fmt"
@@ -34,7 +34,7 @@ func TestEncryptDecrypt(t *testing.T) {
 	for _, test := range testCases {
 		fmt.Printf("Encrypting plaintext: '%s' with key: '%s'\n", test.plaintext, test.key)
 
-		ciphertext, err := encrypt([]byte(test.plaintext), []byte(test.key))
+		ciphertext, err := Encrypt([]byte(test.plaintext), []byte(test.key))
 		if err != nil {
 			t.Errorf("Error during encryption: %v", err)
 			failCount++
@@ -43,7 +43,7 @@ func TestEncryptDecrypt(t *testing.T) {
 
 		fmt.Printf("Encrypted ciphertext bytes: %v\n", ciphertext)
 
-		decrypted, err := decrypt(ciphertext, []byte(test.key))
+		decrypted, err := Decrypt(ciphertext, []byte(test.key))
 		if err != nil {
 			t.Errorf("Error during decryption: %v", err)
 			failCount++

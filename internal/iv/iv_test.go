@@ -66,7 +66,4 @@ Pass
 
 }
 
-// withSubmit is set at compile time depending
-// on which button is used to run the tests
-var withSubmit = true
 

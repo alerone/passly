@@ -1,81 +1,63 @@
 package rsa
 
-
 import (
 	"fmt"
 	"testing"
 )
 
-func TestEncrypt(t *testing.T) {
+func TestGeneratePrivateNumsAndGetN(t *testing.T) {
 	type testCase struct {
-		message  string
-		expected string
+		keySize  int
+		expected int // Number of digits in n
 	}
 
 	runCases := []testCase{
-		{"Hey Darling, don't come over tonight, I'm out with my people", "Hey Darling, don't come over tonight, I'm out with my people"},
-		{"Yes, ten million in cash. No, every penny better be accounted for", "Yes, ten million in cash. No, every penny better be accounted for"},
+		{512, 309},  // Expected number of digits for 512-bit primes
+		{1024, 617}, // Expected number of digits for 1024-bit primes
 	}
 
 	submitCases := append(runCases, []testCase{
-		{"Do you know what would happen if I suddenly decided to stop going into work? A business big enough that it could be listed on the NASDAQ goes belly up. Disappears! It ceases to exist without me. No, you clearly don't know who you're talking to, so let me clue you in. I am not in danger, Skyler. I am the danger. A guy opens his door and gets shot and you think that of me? No. I am the one who knocks!", ""},
+		{2048, 1233}, // Expected number of digits for 2048-bit primes
 	}...)
 
 	testCases := runCases
-	if withSubmit {
-		testCases = submitCases
-	}
+	testCases = submitCases
 	skipped := len(submitCases) - len(testCases)
 
-	pub, priv, err := genKeys()
-	if err != nil {
-		t.Fatalf("Failed to generate key pair: %v", err)
-	}
-
 	var passed, failed int
+
 	for _, test := range testCases {
-		ciphertext, err := encrypt(pub, []byte(test.message))
-		if err != nil {
-			if test.expected == "" {
-				fmt.Printf("Expected failure for long message: %v\n", err)
-				continue
-			}
-			t.Errorf(`---------------------------------
-Encryption failed for message: %v
-error: %v
-Fail
-`, test.message, err)
-			failed++
-			continue
-		}
+		p, q := generatePrivateNums(test.keySize)
+		n := getN(p, q)
 
-		plaintext, err := decrypt(priv, ciphertext)
-		if err != nil {
-			t.Errorf(`---------------------------------
-Decryption failed ciphertext: %v
-error: %v
-Fail
-`, ciphertext, err)
-			failed++
-			continue
-		}
+		firstP := firstNDigits(*p, 10)
+		firstQ := firstNDigits(*q, 10)
+		firstN := firstNDigits(*n, 10)
 
-		if string(plaintext) != test.expected {
-			t.Errorf(`---------------------------------
-Inputs:      message: %v
-Expecting:   decrypted: %v
-Actual:      decrypted: %v
-Fail
-`, test.message, test.expected, string(plaintext))
+		if len(n.String()) != test.expected {
 			failed++
+			t.Errorf(`---------------------------------
+Inputs:      key size: %d
+Generated primes:
+p: %s
+q: %s
+n: %s
+Expecting:   n digits: %d
+Actual:      n digits: %d
+Fail
+`, test.keySize, firstP, firstQ, firstN, test.expected, len(n.String()))
 		} else {
-			fmt.Printf(`---------------------------------
-Inputs:      message: %v
-Expecting:   decrypted: %v
-Actual:      decrypted: %v
-Pass
-`, test.message, test.expected, string(plaintext))
 			passed++
+			fmt.Printf(`---------------------------------
+Inputs:      key size: %d
+Generated primes:
+p: %s
+q: %s
+n: %s
+Expecting:   n digits: %d
+Actual:      n digits: %d
+Pass
+`, test.keySize, firstP, firstQ, firstN, test.expected, len(n.String()))
 		}
 	}
 
@@ -85,9 +67,6 @@ Pass
 	} else {
 		fmt.Printf("%d passed, %d failed\n", passed, failed)
 	}
-}
 
-// withSubmit is set at compile time depending
-// on which button is used to run the tests
-var withSubmit = true
+}
 

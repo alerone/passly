@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"encoding/hex"
+	"fmt"
+
+	"github.com/alerone/passly/internal/hash"
+)
 
 
 func main() {
@@ -14,8 +19,14 @@ func main() {
 	gpas[names[2]] = 2.0
 	gpas[names[3]] = 4.5
 
+	
 	for _, name := range names {
 		gpa := gpas[name]
-		fmt.Printf("%v has a GPA of %v\n", name, gpa)
+		msg := fmt.Sprintf("%v has a GPA of %v\n", name, gpa)
+		fmt.Print(msg)
+		hashVal := hash.ToyHash([]byte(msg))
+		hashed := make([]byte, len(hashVal))
+		copy(hashed, hashVal[:])
+		fmt.Println(hex.EncodeToString(hashed))
 	}
 }

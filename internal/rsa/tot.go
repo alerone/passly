@@ -10,35 +10,22 @@ import (
 // como primo divisible. este calculo si tenemos ya los dos primos que dan un numero es sencillo:
 // n = (p-1) * (q-1)
 func getTot(p, q *big.Int) *big.Int {
-	p1 := new(big.Int)
-	q1 := new(big.Int)
-	big1 := big.NewInt(1)
-	p1 = p1.Sub(p, big1)
-	q1 = q1.Sub(q, big1)
-
-	p1 = p1.Mul(p1, q1)
-	return p1
+	tot := new(big.Int)
+	tot.Mul(new(big.Int).Sub(p, big.NewInt(1)), new(big.Int).Sub(q, big.NewInt(1)))
+	return tot
 }
 
 func getE(tot *big.Int) *big.Int {
-	res := new(big.Int)
-	big1 := big.NewInt(1)
-	for {
-		res, err := crand.Int(randReader, tot)
-		if err != nil {
-			continue
-		}
+	totMinusTwo := new(big.Int)
+	totMinusTwo.Sub(tot, big.NewInt(2))
 
-		if res.Cmp(big1) == 0 {
-			continue
-		}
-
-		if gcd(res, tot).Cmp(big1) == 0 {
-			break
-		}
+	e, _ := crand.Int(randReader, totMinusTwo)
+	e.Add(e, big.NewInt(2))
+	for gcd(e, tot).Cmp(big.NewInt(1)) != 0 {
+		e, _ = crand.Int(randReader, totMinusTwo)
+		e.Add(e, big.NewInt(2))
 	}
-
-	return res
+	return e
 }
 
 // Calcula el máximo común divisor de dos big-int (GCD en inglés)

@@ -15,7 +15,7 @@
 </div>
 
 
-This repository contains code examples and implementations from the [Learn Cryptography in Go](https://www.boot.dev/courses/learn-cryptography-golang) course on Boot.dev. Throughout this course, you'll explore fundamental and advanced cryptographic techniques implemented in Go.
+This repository contains code examples and implementations from the [Learn Cryptography in Go](https://www.boot.dev/courses/learn-cryptography-golang) course on Boot.dev. Throughout this course, I've explored fundamental and advanced cryptographic techniques implemented in Go.
 
 ## Table of Contents
 
@@ -25,8 +25,6 @@ This repository contains code examples and implementations from the [Learn Crypt
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Running Tests](#running-tests)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 

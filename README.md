@@ -33,7 +33,7 @@ This repository contains code examples and implementations from the [Learn Crypt
 - **Stream Ciphers**: Examples of OTP and XOR-based stream ciphers.
 - **Hash Functions**: Toy hash and cryptographic hash functions.
 - **Message Authentication**: Checksums, MAC, and HMAC implementations.
-- **Asymmetric Cryptography**: RSA and ECDSA for key generation, signing, and verification.
+- **Asymmetric Cryptography**: RSA and ECDSA for key generation, signing, and verification. Custom implementation of RSA.
 - **Key Derivation**: Password-based KDF using bcrypt.
 - **Initialization Vectors & Nonces**: Secure IV/nonce generation for ciphers.
 - **JWT**: Synchronous and asynchronous JWT creation and validation.
